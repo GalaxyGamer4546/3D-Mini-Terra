@@ -17,6 +17,23 @@
   function section(name, fn) {
     try { fn(); } catch (e) { console.error('[Batch 3] ' + name + ' failed:', e.message); }
   }
+    // Local toast — batch1/batch3 have their own but they're scoped to their
+  // own IIFEs, so we define our own here.
+  function toast(msg) {
+    let el = document.getElementById('b4toast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'b4toast';
+      el.style.cssText = 'position:fixed;top:40px;left:50%;transform:translateX(-50%);' +
+        'background:rgba(0,0,0,.8);color:#fff;padding:8px 14px;border-radius:6px;' +
+        'font:14px system-ui,sans-serif;z-index:30;transition:opacity .4s;pointer-events:none;';
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.opacity = '1';
+    clearTimeout(el._t);
+    el._t = setTimeout(function () { el.style.opacity = '0'; }, 1500);
+  }
 
   // ============================================================
   // 1. NEW ITEMS + BLOCK DEFINITIONS FOR DROPS

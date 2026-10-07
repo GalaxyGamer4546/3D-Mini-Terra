@@ -348,6 +348,8 @@
 
   const lockEl = document.getElementById('lock');
   renderer.domElement.addEventListener('click', () => {
+    // Don't re-lock if a batch UI is open (inventory, pause menu, etc.)
+    if (window._invOpen) return;
     if (document.pointerLockElement !== renderer.domElement) {
       renderer.domElement.requestPointerLock();
     }
@@ -355,11 +357,13 @@
   lockEl.addEventListener('click', () => {
     renderer.domElement.requestPointerLock();
   });
-  document.addEventListener('pointerlockchange', () => {
+document.addEventListener('pointerlockchange', () => {
+    if (window._invOpen) return;
     const locked = document.pointerLockElement === renderer.domElement;
     lockEl.style.display = locked ? 'none' : 'flex';
   });
-  addEventListener('mousemove', e => {
+addEventListener('mousemove', e => {
+    if (window._invOpen) return;
     if (document.pointerLockElement !== renderer.domElement) return;
     player.yaw -= e.movementX * 0.002;
     player.pitch -= e.movementY * 0.002;
@@ -550,5 +554,7 @@
 </script>
 <script src="batch1.js"></script>
 <script src="batch2.js"></script>
+<script src="batch3.js"></script>
+<script src="batch4.js"></script>
 </body>
 </html>
