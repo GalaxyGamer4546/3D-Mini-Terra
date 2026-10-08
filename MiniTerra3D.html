@@ -40,8 +40,8 @@
 // CONFIG
 // ============================================================
 const CHUNK_SIZE = 16;
-const CHUNKS_X = 16;
-const CHUNKS_Z = 16;
+const CHUNKS_X = 64;
+const CHUNKS_Z = 64;
 const WORLD_H = 64;
 const SEA_LEVEL = 20;
 const CHUNKS_TOTAL = CHUNKS_X * CHUNKS_Z;
@@ -162,46 +162,47 @@ const RECIPES = [
 // MOBS — all mob definitions
 // ============================================================
 const MOBS = {
-  // Batch 3
   pig: { name: 'Pig', hp: 10, speed: 0.05, size: { w: 0.9, h: 0.9, d: 1.3 },
     passive: true, spawnLight: 'day', spawnSurface: true,
     drops: [{ item: 'raw_porkchop', min: 1, max: 2 }],
-    bodyColor: 0xff9aa8, headColor: 0xffb8c4, legColor: 0xd07080, model: 'pig' },
+    bodyColor: 0xff9aa8, headColor: 0xffb8c4, legColor: 0xd07080, model: 'pig',
+    bloodColor: 0xff5577 },
   chicken: { name: 'Chicken', hp: 4, speed: 0.06, size: { w: 0.5, h: 0.7, d: 0.5 },
     passive: true, spawnLight: 'day', spawnSurface: true,
     drops: [{ item: 'feather', min: 1, max: 2 }, { item: 'raw_chicken', min: 1, max: 1 }],
-    bodyColor: 0xf4f4f4, headColor: 0xffffff, legColor: 0xffaa00, model: 'chicken' },
+    bodyColor: 0xf4f4f4, headColor: 0xffffff, legColor: 0xffaa00, model: 'chicken',
+    bloodColor: 0xffa0a0 },
   zombie: { name: 'Zombie', hp: 20, speed: 0.04, size: { w: 0.7, h: 1.8, d: 0.5 },
-    hostile: true, damage: 3, spawnLight: 'dark', spawnSurface: false,
+    hostile: true, damage: 3, attackCooldown: 1.2, spawnLight: 'dark', spawnSurface: false,
     drops: [{ item: 'rotten_flesh', min: 1, max: 2 }],
-    bodyColor: 0x3a6b3a, headColor: 0x4a8a4a, legColor: 0x2a4a2a, model: 'zombie' },
-  // Batch 6a
+    bodyColor: 0x3a6b3a, headColor: 0x4a8a4a, legColor: 0x2a4a2a, model: 'zombie',
+    bloodColor: 0x4a8a4a },
   sheep: { name: 'Sheep', hp: 8, speed: 0.05, size: { w: 0.9, h: 1.1, d: 1.2 },
     passive: true, spawnLight: 'any', spawnSurface: true,
     drops: [{ item: 'raw_mutton', min: 1, max: 2 }, { item: 'wool', min: 1, max: 2 }],
-    bodyColor: 0xf0f0e8, headColor: 0xd8d0c0, legColor: 0xc0b8a8, model: 'sheep' },
+    bodyColor: 0xf0f0e8, headColor: 0xd8d0c0, legColor: 0xc0b8a8, model: 'sheep',
+    bloodColor: 0xff6666 },
   cow: { name: 'Cow', hp: 10, speed: 0.045, size: { w: 0.9, h: 1.3, d: 1.4 },
     passive: true, spawnLight: 'any', spawnSurface: true,
     drops: [{ item: 'raw_beef', min: 1, max: 3 }, { item: 'leather', min: 1, max: 2 }],
-    bodyColor: 0x5a3a20, headColor: 0x5a3a20, legColor: 0x3a2510, model: 'cow' },
+    bodyColor: 0x5a3a20, headColor: 0x5a3a20, legColor: 0x3a2510, model: 'cow',
+    bloodColor: 0xd04040 },
   skeleton: { name: 'Skeleton', hp: 20, speed: 0.045, size: { w: 0.7, h: 1.8, d: 0.5 },
-    hostile: true, ranged: true, rangedCooldown: 90, rangedRange: 18, arrowSpeed: 0.5,
+    hostile: true, ranged: true, rangedCooldown: 90, rangedRange: 30, arrowSpeed: 1.5,
     spawnLight: 'dark', spawnSurface: false,
     drops: [{ item: 'bone', min: 0, max: 2 }, { item: 'arrow', min: 0, max: 2 }],
-    bodyColor: 0xe8e8e0, headColor: 0xf4f4ec, legColor: 0xe8e8e0, model: 'skeleton' },
-  creeper: { name: 'Creeper', hp: 20, speed: 0.04, size: { w: 0.7, h: 1.6, d: 0.7 },
-    hostile: true, explodes: true, fuseTime: 90, explosionRadius: 3, explosionDamage: 20,
-    spawnLight: 'dark', spawnSurface: false,
-    drops: [{ item: 'gunpowder', min: 0, max: 2 }],
-    bodyColor: 0x4a8040, headColor: 0x4a8040, legColor: 0x3a6030, model: 'creeper' },
+    bodyColor: 0xe8e8e0, headColor: 0xf4f4ec, legColor: 0xe8e8e0, model: 'skeleton',
+    bloodColor: 0xd0d0b0 },
   slime: { name: 'Slime', hp: 16, speed: 0.06, size: { w: 0.9, h: 0.9, d: 0.9 },
-    hostile: true, hops: true, spawnLight: 'dark', spawnSurface: false,
+    hostile: true, hops: true, attackCooldown: 0.8, spawnLight: 'dark', spawnSurface: false,
     drops: [{ item: 'slimeball', min: 0, max: 3 }],
-    bodyColor: 0x7ec87e, headColor: 0x7ec87e, legColor: 0x7ec87e, translucent: true, model: 'slime' },
+    bodyColor: 0x7ec87e, headColor: 0x7ec87e, legColor: 0x7ec87e, translucent: true, model: 'slime',
+    bloodColor: 0x7ec87e },
   bat: { name: 'Bat', hp: 6, speed: 0.08, size: { w: 0.5, h: 0.5, d: 0.5 },
     passive: true, flies: true, erratic: true, spawnLight: 'dark', spawnSurface: false,
     drops: [{ item: 'bat_wing', min: 0, max: 1 }],
-    bodyColor: 0x3a2a2a, headColor: 0x3a2a2a, legColor: 0x3a2a2a, model: 'bat' },
+    bodyColor: 0x3a2a2a, headColor: 0x3a2a2a, legColor: 0x3a2a2a, model: 'bat',
+    bloodColor: 0x5a4a6a },
 };
 
 // ============================================================
@@ -242,9 +243,78 @@ function fbm(x, y) {
 // TERRAIN GENERATION
 // ============================================================
 function surfaceHeight(x, z) {
+  // Base rolling hills (existing)
   const n = fbm(x * 0.02, z * 0.02);
   const hills = fbm(x * 0.008 + 100, z * 0.008 + 100);
-  return Math.floor(SEA_LEVEL + (n - 0.5) * 6 + (hills - 0.5) * 10);
+  let h = SEA_LEVEL + (n - 0.5) * 6 + (hills - 0.5) * 10;
+
+  // Mountains: separate noise layer, power curve for dramatic peaks
+  const m = fbm(x * 0.004 + 777, z * 0.004 + 777) - 0.5;   // -0.5 .. 0.5
+  const sign = m < 0 ? -1 : 1;
+  const shaped = sign * Math.pow(Math.abs(m) * 2, 2.2) * 80;   // up to ±80
+  h += shaped;
+
+  // Valleys: gentle dips
+  const v = fbm(x * 0.006 + 999, z * 0.006 + 999) - 0.5;
+  if (v < -0.2) h += (v + 0.2) * 30;   // up to -30
+
+  // Small detail
+  h += (vnoise(x * 0.05 + 12, z * 0.05 + 12) - 0.5) * 3;
+
+  return Math.floor(h);
+}
+
+// 3D noise for caves
+function vnoise3(x, y, z) {
+  const xi = Math.floor(x), yi = Math.floor(y), zi = Math.floor(z);
+  const s = t => t * t * (3 - 2 * t);
+  const u = s(x - xi), v = s(y - yi), w = s(z - zi);
+  // 8 corners
+  function hash3(a, b, c) {
+    let h = Math.imul(a, 374761393) + Math.imul(b, 668265263) + Math.imul(c, 2147483647);
+    h = Math.imul(h ^ (h >>> 13), 1274126177);
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+  }
+  const c000 = hash3(xi, yi, zi),       c100 = hash3(xi+1, yi, zi);
+  const c010 = hash3(xi, yi+1, zi),     c110 = hash3(xi+1, yi+1, zi);
+  const c001 = hash3(xi, yi, zi+1),     c101 = hash3(xi+1, yi, zi+1);
+  const c011 = hash3(xi, yi+1, zi+1),   c111 = hash3(xi+1, yi+1, zi+1);
+  const x00 = c000 * (1 - u) + c100 * u;
+  const x10 = c010 * (1 - u) + c110 * u;
+  const x01 = c001 * (1 - u) + c101 * u;
+  const x11 = c011 * (1 - u) + c111 * u;
+  const y0 = x00 * (1 - v) + x10 * v;
+  const y1 = x01 * (1 - v) + x11 * v;
+  return y0 * (1 - w) + y1 * w;
+}
+function fbm3(x, y, z) {
+  return vnoise3(x, y, z) * 0.5
+       + vnoise3(x * 2.1, y * 2.1, z * 2.1) * 0.3
+       + vnoise3(x * 4.3, y * 4.3, z * 4.3) * 0.2;
+}
+
+// River noise — a 2D "band" that cuts valleys
+function riverValue(x, z) {
+  // Two frequencies to make rivers wind naturally
+  return fbm(x * 0.003 + 2000, z * 0.003 + 2000);
+}
+
+// Biome by surface elevation and noise — simple version
+function surfaceBiome(x, z, h) {
+  const bn = fbm(x * 0.002 + 500, z * 0.002 + 500);
+  if (h > SEA_LEVEL + 40) return 'snow';       // mountaintops
+  if (h > SEA_LEVEL + 20) return 'stone';      // rocky slopes
+  if (bn < 0.35) return 'snow';
+  if (bn > 0.65) return 'desert';
+  return 'grass';
+}
+
+function isCaveAt(x, y, z) {
+  const cave = fbm3(x * 0.04, y * 0.06, z * 0.04);
+  if (cave > 0.55) return true;   // big caverns
+  const tunnel = Math.abs(fbm3(x * 0.06 + 300, y * 0.04 + 300, z * 0.06 + 300) - 0.5);
+  if (tunnel < 0.035) return true;   // winding tunnels
+  return false;
 }
 
 function plantTree(x, y, z) {
@@ -257,7 +327,7 @@ function plantTree(x, y, z) {
       for (let dy = -1; dy <= 1; dy++) {
         const ax = x + dx, ay = topY + dy, az = z + dz;
         if (getBlock(ax, ay, az) === 0) {
-          if (Math.abs(dx) + Math.abs(dz) + Math.abs(dy) <= 3) setBlock(ax, ay, az, 10);   // leaves block
+          if (Math.abs(dx) + Math.abs(dz) + Math.abs(dy) <= 3) setBlock(ax, ay, az, 10);
         }
       }
     }
@@ -265,40 +335,68 @@ function plantTree(x, y, z) {
 }
 
 function generateWorld() {
+  console.log('[world] generating', WORLD_W + 'x' + WORLD_D, 'world...');
   for (let x = 0; x < WORLD_W; x++) {
     for (let z = 0; z < WORLD_D; z++) {
       const h = surfaceHeight(x, z);
+      const biome = surfaceBiome(x, z, h);
+      const isRiver = Math.abs(riverValue(x, z) - 0.5) < 0.035;
+
+      // Choose surface and sub-surface blocks by biome
+      let surfaceBlock, subBlock;
+      if (biome === 'snow') { surfaceBlock = 12; subBlock = 2; }        // snow / dirt
+      else if (biome === 'stone') { surfaceBlock = 3; subBlock = 3; }   // stone / stone
+      else if (biome === 'desert') { surfaceBlock = 6; subBlock = 6; }  // sand / sand
+      else { surfaceBlock = 1; subBlock = 2; }                          // grass / dirt
+
+      // Is this column a river? Lower the terrain and fill with water
+      let columnH = h;
+      if (isRiver && h > SEA_LEVEL - 2) {
+        columnH = Math.min(h, SEA_LEVEL + 1);
+      }
+
       for (let y = 0; y < WORLD_H; y++) {
         let b = 0;
         if (y === 0) b = 3;
-        else if (y < h - 4) b = 3;
-        else if (y < h) b = 2;
-        else if (y === h) b = h <= SEA_LEVEL ? 6 : 1;
+        else if (y < columnH - 4) {
+          // Stone layer with cave carving
+          if (y > 3 && y < columnH - 4) {
+            if (isCaveAt(x, y, z)) b = 0;   // cave air
+            else b = (columnH - y > 45) ? 3 : 3;   // could differentiate deepstone later
+          } else {
+            b = 3;
+          }
+        }
+        else if (y < columnH - 1) b = subBlock;
+        else if (y === columnH - 1) b = surfaceBlock;
+        else if (y === columnH) b = surfaceBlock;
         setBlock(x, y, z, b);
       }
-      if (h > SEA_LEVEL && hash2(x * 7, z * 13) < 0.008) {
-        plantTree(x, h + 1, z);
+
+      // Fill rivers with water at the top
+      if (isRiver && columnH <= SEA_LEVEL + 1 && h > SEA_LEVEL - 5) {
+        for (let y = columnH + 1; y <= SEA_LEVEL + 1; y++) {
+          setBlock(x, y, z, 11);   // water
+        }
+      }
+
+      // Trees only on grass/snow surfaces, not in rivers
+      if (!isRiver && (biome === 'grass' || biome === 'snow') && columnH > SEA_LEVEL - 2) {
+        if (hash2(x * 7, z * 13) < 0.008) {
+          plantTree(x, columnH + 1, z);
+        }
       }
     }
   }
-  // Fill water at sea level
-  for (let x = 0; x < WORLD_W; x++) {
-    for (let z = 0; z < WORLD_D; z++) {
-      for (let y = 1; y <= SEA_LEVEL; y++) {
-        if (getBlock(x, y, z) === 0) setBlock(x, y, z, 11);   // water
-      }
-    }
-  }
-  // Scatter ores
   scatterOres();
 }
 
 function scatterOres() {
   const ORE_STATS = [
-    { id: 16, count: 2000, yMin: 5, yMax: 18, cluster: 6 },
-    { id: 17, count: 1200, yMin: 3, yMax: 15, cluster: 4 },
-    { id: 18, count: 400,  yMin: 1, yMax: 10, cluster: 3 },
-    { id: 19, count: 120,  yMin: 1, yMax: 6,  cluster: 3 },
+    { id: 16, count: 30000, yMin: 5, yMax: 30, cluster: 6 },
+    { id: 17, count: 18000, yMin: 3, yMax: 25, cluster: 4 },
+    { id: 18, count: 5000,  yMin: 1, yMax: 15, cluster: 3 },
+    { id: 19, count: 1500,  yMin: 1, yMax: 10, cluster: 3 },
   ];
   let placed = 0;
   for (const stat of ORE_STATS) {
@@ -819,7 +917,9 @@ function updatePhysics(dt) {
   player.vel.y -= 25 * dt;
   if (player.vel.y < -30) player.vel.y = -30;
 
-  const speed = (keys['ShiftLeft'] ? 8 : 4.5);
+const sprinting = updateSprint();
+const baseSpeed = sprinting ? 8 : 4.5;
+const speed = baseSpeed * speedMultiplier();
   let mx = 0, mz = 0;
   if (keys['KeyW']) mz -= 1;
   if (keys['KeyS']) mz += 1;
@@ -1015,6 +1115,700 @@ function iconHTML(itemName) {
   const hex = '#' + (c >>> 0).toString(16).padStart(6, '0');
   return '<div style="width:40px;height:40px;background:' + hex + ';border-radius:4px;"></div>';
 }
+
+
+// ============================================================
+// STATS — health, hunger, stamina, oxygen
+// ============================================================
+const stats = {
+  maxHealth: 20,
+  health: 20,
+  maxHunger: 20,
+  hunger: 20,
+  exhaustion: 0,
+  maxStamina: 100,
+  stamina: 100,
+  staminaRegenDelay: 0,
+  exhausted: false,
+  maxOxygen: 25 * 60,    // 25 seconds at 60fps
+  oxygen: 25 * 60,
+  eating: 0,             // countdown timer while eating
+  eatCooldown: 0,        // prevents rapid eating
+  hurtCooldown: 0,       // brief invulnerability after damage
+  lastDamage: -9999,
+  dead: false,
+  deathTimer: 0,
+};
+// Attack system state
+stats.attackCooldown = 0;      // frames until next attack allowed
+stats.lastLandFrame = -9999;   // last frame the player was grounded after falling
+stats.lastAirFrame = -9999;    // last frame the player was airborne
+stats.critWindowFrames = 18;   // 0.3 seconds * 60fps
+
+const canvas = renderer.domElement;
+
+// Separate 2D canvas for the HUD, layered on top of the WebGL canvas
+const hudCanvas = document.createElement('canvas');
+hudCanvas.id = 'hud-canvas';
+hudCanvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;';
+document.body.appendChild(hudCanvas);
+const ctx = hudCanvas.getContext('2d');
+function resizeHUD() {
+  hudCanvas.width = window.innerWidth;
+  hudCanvas.height = window.innerHeight;
+}
+resizeHUD();
+window.addEventListener('resize', resizeHUD);
+
+const HUNGER_SPEED_MIN = 0.5;
+const HUNGER_SPEED_MAX = 1.0;
+const HUNGER_MINE_MIN = 0.4;
+const HUNGER_MINE_MAX = 1.0;
+
+// Track exhaustion so hunger drains realistically.
+// Exhaustion accumulates and every 4.0 becomes 1 hunger point.
+function addExhaustion(amount) {
+  stats.exhaustion += amount;
+  while (stats.exhaustion >= 4.0) {
+    stats.exhaustion -= 4.0;
+    stats.hunger = Math.max(0, stats.hunger - 1);
+  }
+}
+
+// Speed multiplier based on hunger
+function speedMultiplier() {
+  const t = stats.hunger / stats.maxHunger;
+  return HUNGER_SPEED_MIN + (HUNGER_SPEED_MAX - HUNGER_SPEED_MIN) * t;
+}
+function mineSpeedMultiplier() {
+  const t = stats.hunger / stats.maxHunger;
+  return HUNGER_MINE_MIN + (HUNGER_MINE_MAX - HUNGER_MINE_MIN) * t;
+}
+
+// Central damage function — everything routes through here
+function damage(amount, opts) {
+  if (stats.dead) return;
+  opts = opts || {};
+  if (stats.hurtCooldown > 0 && !opts.ignoreCooldown) return;
+  stats.health -= amount;
+  stats.lastDamage = frame;
+  stats.hurtCooldown = 10;   // ~1/6 second invuln
+  flashHurt(amount);
+  if (stats.health <= 0) {
+    stats.health = 0;
+    die();
+  }
+}
+function heal(amount) {
+  if (stats.dead) return;
+  stats.health = Math.min(stats.maxHealth, stats.health + amount);
+}
+function feed(hunger, healHP) {
+  if (stats.dead) return;
+  stats.hunger = Math.min(stats.maxHunger, stats.hunger + hunger);
+  if (healHP > 0) heal(healHP);
+}
+
+// Hurt vignette — intensity-based, fades over time
+const hurtVignette = {
+  intensity: 0,
+  fadeTime: 0,
+  fadeRemaining: 0,
+  lowHealthMax: 0.6,
+};
+function flashHurt(damageAmount) {
+  const dmg = damageAmount || 1;
+  const newIntensity = Math.min(1, dmg / 10);
+  // If a bigger hit lands while already hurt, jump to the higher intensity
+  if (newIntensity > hurtVignette.intensity) {
+    hurtVignette.intensity = newIntensity;
+    hurtVignette.fadeTime = 1 + dmg * 0.4;
+    hurtVignette.fadeRemaining = hurtVignette.fadeTime;
+  }
+}
+
+// Death and respawn
+function die() {
+  stats.dead = true;
+  stats.deathTimer = 120;   // 2 seconds before respawn
+}
+function respawn() {
+  // Respawn at bed if set, else world center
+  if (bedSpawnPoint) {
+    player.pos.set(bedSpawnPoint.x, bedSpawnPoint.y, bedSpawnPoint.z);
+  } else {
+    player.pos.set(WORLD_W / 2, surfaceHeight(Math.floor(WORLD_W / 2), Math.floor(WORLD_D / 2)) + 3, WORLD_D / 2);
+  }
+  player.vel.set(0, 0, 0);
+  stats.health = stats.maxHealth;
+  stats.hunger = stats.maxHunger;
+  stats.stamina = stats.maxStamina;
+  stats.oxygen = stats.maxOxygen;
+  stats.exhaustion = 0;
+  stats.dead = false;
+  stats.deathTimer = 0;
+  stats.hurtCooldown = 30;
+}
+
+// ============================================================
+// FOOD SYSTEM
+// ============================================================
+// Each food item in ITEMS has:
+//   food  = hunger points restored (out of 20)
+//   heal  = HP restored (out of 20)
+//   damageOnEat = optional, damage applied after eating (for rotten flesh)
+//
+// Set values on existing items
+function initFood() {
+  if (ITEMS.raw_porkchop) { ITEMS.raw_porkchop.food = 3; ITEMS.raw_porkchop.heal = 1; }
+  if (ITEMS.raw_beef)     { ITEMS.raw_beef.food = 3;     ITEMS.raw_beef.heal = 1; }
+  if (ITEMS.raw_mutton)   { ITEMS.raw_mutton.food = 2;   ITEMS.raw_mutton.heal = 1; }
+  if (ITEMS.raw_chicken)  { ITEMS.raw_chicken.food = 2;  ITEMS.raw_chicken.heal = 1; }
+  if (ITEMS.rotten_flesh) { ITEMS.rotten_flesh.food = 4; ITEMS.rotten_flesh.heal = 0; ITEMS.rotten_flesh.damageOnEat = 1; }
+  // Add future foods here. Example:
+  // ITEMS.golden_apple = { name: 'Golden Apple', color: 0xffd700, icon: 'apple', food: 4, heal: 20 };
+}
+initFood();
+
+function isFood(itemName) {
+  const it = ITEMS[itemName];
+  return it && (it.food !== undefined || it.heal !== undefined);
+}
+
+function eatFood(itemName) {
+  const it = ITEMS[itemName];
+  if (!it) return false;
+  if (stats.eatCooldown > 0) return false;
+  const hungerGain = it.food || 0;
+  const healGain = it.heal || 0;
+  // Check if we actually need it
+  const needHunger = stats.hunger < stats.maxHunger;
+  const needHealth = stats.health < stats.maxHealth;
+  if (!needHunger && !needHealth) { toast('Not hungry'); return false; }
+  // Consume
+  feed(hungerGain, healGain);
+  if (it.damageOnEat) damage(it.damageOnEat, { ignoreCooldown: true });
+  // Eat cooldown
+  stats.eatCooldown = 30;   // ~0.5s
+  // Consume from inventory
+  const slot = inventory[selectedSlot];
+  if (slot && slot.item === itemName) {
+    slot.count -= 1;
+    if (slot.count <= 0) inventory[selectedSlot] = null;
+  } else {
+    removeFromInventory(itemName, 1);
+  }
+  refreshHotbarUI();
+  // Show eat feedback
+  toast('Ate ' + itemLabel(itemName));
+  return true;
+}
+
+let fallPeakY = player.pos.y;
+
+// ============================================================
+// FALL DAMAGE TRACKING
+// ============================================================
+function updateFallTracking() {
+  if (player.onGround) {
+    const fallDist = fallPeakY - player.pos.y;
+    if (fallDist > 3) {
+      const dmg = Math.floor(fallDist - 3);
+      if (dmg > 0) damage(dmg, { ignoreCooldown: true });
+    }
+    fallPeakY = player.pos.y;
+  }
+  // No else branch — peak stays where it was set at takeoff
+}
+
+// ============================================================
+// HUD — hearts, hunger, stamina, oxygen
+// ============================================================
+
+
+// ============================================================
+// BLOOD PARTICLES
+// ============================================================
+const bloodParticles = [];
+
+function spawnBlood(x, y, z, color) {
+  for (let i = 0; i < 8; i++) {
+    bloodParticles.push({
+      pos: new THREE.Vector3(x, y, z),
+      vel: new THREE.Vector3(
+        (Math.random() - 0.5) * 4,
+        Math.random() * 3 + 1,
+        (Math.random() - 0.5) * 4
+      ),
+      color: color,
+      life: 0.5 + Math.random() * 0.2,
+      maxLife: 0.7,
+      size: 0.06 + Math.random() * 0.06,
+    });
+  }
+}
+
+function updateBloodParticles(dt) {
+  for (let i = bloodParticles.length - 1; i >= 0; i--) {
+    const p = bloodParticles[i];
+    p.vel.y -= 20 * dt;   // gravity
+    p.pos.x += p.vel.x * dt;
+    p.pos.y += p.vel.y * dt;
+    p.pos.z += p.vel.z * dt;
+    // Stop at ground
+    if (isSolidAt(p.pos.x, p.pos.y - 0.05, p.pos.z)) {
+      p.vel.set(0, 0, 0);
+    }
+    p.life -= dt;
+    if (p.life <= 0) bloodParticles.splice(i, 1);
+  }
+}
+
+function drawBloodParticles() {
+  if (bloodParticles.length === 0) return;
+  const vec = new THREE.Vector3();
+  for (const p of bloodParticles) {
+    vec.copy(p.pos);
+    vec.project(camera);
+    if (vec.z > 1) continue;
+    const sx = (vec.x * 0.5 + 0.5) * hudCanvas.width;
+    const sy = (-vec.y * 0.5 + 0.5) * hudCanvas.height;
+    const t = p.life / p.maxLife;
+    // Convert color to rgba
+    const r = (p.color >> 16) & 255;
+    const g = (p.color >> 8) & 255;
+    const b = p.color & 255;
+    ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + Math.min(1, t * 1.5) + ')';
+    const size = p.size * 400 / Math.max(1, vec.z * 30);
+    ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+  }
+}
+
+// ============================================================
+// HIT MARKER
+// ============================================================
+const hitMarker = {
+  age: 0,
+  duration: 0.25,
+  isCrit: false,
+  active: false,
+};
+
+function showHitMarker(isCrit) {
+  hitMarker.active = true;
+  hitMarker.age = 0;
+  hitMarker.isCrit = !!isCrit;
+}
+
+function updateHitMarker(dt) {
+  if (!hitMarker.active) return;
+  hitMarker.age += dt;
+  if (hitMarker.age >= hitMarker.duration) hitMarker.active = false;
+}
+
+function drawHitMarker() {
+  if (!hitMarker.active) return;
+  const t = hitMarker.age / hitMarker.duration;
+  const alpha = 1 - t * t;
+  const cx = hudCanvas.width / 2;
+  const cy = hudCanvas.height / 2;
+  const size = 12 + t * 8;
+  const color = hitMarker.isCrit ? '#ffd54a' : '#ffffff';
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2.5;
+  ctx.shadowColor = '#000';
+  ctx.shadowBlur = 3;
+  // Draw an X
+  ctx.beginPath();
+  ctx.moveTo(cx - size, cy - size);
+  ctx.lineTo(cx - size * 0.3, cy - size * 0.3);
+  ctx.moveTo(cx + size, cy - size);
+  ctx.lineTo(cx + size * 0.3, cy - size * 0.3);
+  ctx.moveTo(cx - size, cy + size);
+  ctx.lineTo(cx - size * 0.3, cy + size * 0.3);
+  ctx.moveTo(cx + size, cy + size);
+  ctx.lineTo(cx + size * 0.3, cy + size * 0.3);
+  ctx.stroke();
+  ctx.restore();
+}
+
+// END BLOOD + HIT MARKER
+
+// ============================================================
+// DAMAGE NUMBERS
+// ============================================================
+const damageNumbers = [];
+
+function spawnDamageNumber(worldX, worldY, worldZ, amount, isCrit) {
+  damageNumbers.push({
+    worldX: worldX,
+    worldY: worldY,
+    worldZ: worldZ,
+    amount: Math.round(amount),
+    isCrit: !!isCrit,
+    age: 0,
+    duration: isCrit ? 1.2 : 0.8,
+    vy: isCrit ? 1.5 : 1.0,
+    vx: (Math.random() - 0.5) * 0.4,
+    vz: (Math.random() - 0.5) * 0.4,
+  });
+}
+
+function updateDamageNumbers(dt) {
+  for (let i = damageNumbers.length - 1; i >= 0; i--) {
+    const n = damageNumbers[i];
+    n.age += dt;
+    n.worldY += n.vy * dt;
+    n.worldX += n.vx * dt;
+    n.worldZ += n.vz * dt;
+    n.vy -= 1.5 * dt;   // slight deceleration
+    if (n.age >= n.duration) damageNumbers.splice(i, 1);
+  }
+}
+
+function drawDamageNumbers() {
+  if (damageNumbers.length === 0) return;
+  for (const n of damageNumbers) {
+    // Convert world position to screen position
+    const vec = new THREE.Vector3(n.worldX, n.worldY, n.worldZ);
+    vec.project(camera);
+    // Check if the number is behind the camera
+    if (vec.z > 1) continue;
+    const sx = (vec.x * 0.5 + 0.5) * hudCanvas.width;
+    const sy = (-vec.y * 0.5 + 0.5) * hudCanvas.height;
+    const t = n.age / n.duration;
+    const alpha = 1 - t * t;   // fade out toward the end
+    const scale = n.isCrit ? (1 + t * 0.4) : 1;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (n.isCrit) {
+      // Gold crit
+      ctx.font = 'bold ' + Math.round(28 * scale) + 'px system-ui,sans-serif';
+      // Outline
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#3a2a00';
+      ctx.strokeText(n.amount, sx, sy);
+      // Fill with gradient
+      ctx.fillStyle = '#ffd54a';
+      ctx.fillText(n.amount, sx, sy);
+      // Slight inner highlight
+      ctx.fillStyle = 'rgba(255,255,240,.5)';
+      ctx.font = 'bold ' + Math.round(26 * scale) + 'px system-ui,sans-serif';
+      ctx.fillText(n.amount, sx, sy - 1);
+    } else {
+      // Regular hit — white with red tint
+      ctx.font = 'bold 20px system-ui,sans-serif';
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#000';
+      ctx.strokeText(n.amount, sx, sy);
+      ctx.fillStyle = '#ff7b72';
+      ctx.fillText(n.amount, sx, sy);
+    }
+    ctx.restore();
+  }
+}
+
+// END DAMAGE NUMBERS
+
+function drawHeart(x, y, fill) {
+  // fill: 0 = empty, 0.5 = half, 1 = full
+  const full = fill >= 1;
+  const half = fill >= 0.5 && fill < 1;
+  // Outer heart shape in dark red
+  ctx.fillStyle = '#3a0a0a';
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(x + 8, y + 15);
+  ctx.bezierCurveTo(x - 4, y + 5, x + 2, y - 4, x + 8, y + 3);
+  ctx.bezierCurveTo(x + 14, y - 4, x + 20, y + 5, x + 8, y + 15);
+  ctx.fill();
+  ctx.stroke();
+  if (fill > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x + 8, y + 15);
+    ctx.bezierCurveTo(x - 4, y + 5, x + 2, y - 4, x + 8, y + 3);
+    ctx.bezierCurveTo(x + 14, y - 4, x + 20, y + 5, x + 8, y + 15);
+    if (half) ctx.rect(x - 5, y - 5, 13, 25);
+    ctx.clip();
+    // Inner red
+    ctx.fillStyle = full ? '#e53935' : '#c62828';
+    ctx.beginPath();
+    ctx.moveTo(x + 8, y + 15);
+    ctx.bezierCurveTo(x - 4, y + 5, x + 2, y - 4, x + 8, y + 3);
+    ctx.bezierCurveTo(x + 14, y - 4, x + 20, y + 5, x + 8, y + 15);
+    ctx.fill();
+    // Highlight
+    ctx.fillStyle = 'rgba(255,255,255,.35)';
+    ctx.beginPath();
+    ctx.ellipse(x + 5, y + 3, 3, 2, -0.5, 0, 7);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+function drawDrumstick(x, y, fill) {
+  const full = fill >= 1;
+  const half = fill >= 0.5 && fill < 1;
+  // Bone
+  ctx.fillStyle = '#3a2a1a';
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.ellipse(x + 14, y + 12, 8, 6, -0.4, 0, 7);
+  ctx.fill();
+  ctx.stroke();
+  // Meat
+  ctx.beginPath();
+  ctx.arc(x + 9, y + 6, 6, 0, 7);
+  ctx.fill();
+  ctx.stroke();
+  if (fill > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(half ? x : x - 5, y - 5, 15, 25);
+    ctx.clip();
+    ctx.fillStyle = full ? '#8d6e63' : '#6d4c41';
+    ctx.beginPath();
+    ctx.arc(x + 9, y + 6, 5, 0, 7);
+    ctx.fill();
+    ctx.fillStyle = full ? '#a1887f' : '#8d6e63';
+    ctx.beginPath();
+    ctx.ellipse(x + 14, y + 12, 7, 5, -0.4, 0, 7);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.3)';
+    ctx.beginPath();
+    ctx.arc(x + 7, y + 4, 2, 0, 7);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+function drawBubble(x, y, fill) {
+  const full = fill >= 1;
+  const half = fill >= 0.5 && fill < 1;
+  ctx.fillStyle = 'rgba(20,30,50,.7)';
+  ctx.strokeStyle = '#cfe9ff';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(x + 8, y + 8, 7, 0, 7);
+  ctx.fill();
+  ctx.stroke();
+  if (fill > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(half ? x + 8 : x, y, 12, 20);
+    ctx.clip();
+    ctx.fillStyle = 'rgba(160,220,255,.85)';
+    ctx.beginPath();
+    ctx.arc(x + 8, y + 8, 6, 0, 7);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.7)';
+    ctx.beginPath();
+    ctx.arc(x + 6, y + 6, 2, 0, 7);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function drawStatsHUD() {
+    ctx.clearRect(0, 0, hudCanvas.width, hudCanvas.height);
+    // Update hurt vignette fade every frame
+  if (hurtVignette.fadeRemaining > 0) {
+    hurtVignette.fadeRemaining -= 1 / 60;
+    if (hurtVignette.fadeRemaining <= 0) {
+      hurtVignette.intensity = 0;
+      hurtVignette.fadeRemaining = 0;
+    } else {
+      hurtVignette.intensity = hurtVignette.fadeRemaining / hurtVignette.fadeTime;
+    }
+  }
+  if (stats.dead) return;
+  const cxm = canvas.width / 2;
+  const left = cxm - 232;
+  const right = cxm + 232;
+  const rowY = canvas.height - 96;
+
+  // Hearts (left side, counted from left)
+  const heartsToShow = Math.ceil(stats.maxHealth / 2);
+  for (let i = 0; i < heartsToShow; i++) {
+    const hpAtHeart = stats.health - i * 2;
+    const fill = Math.max(0, Math.min(1, hpAtHeart / 2));
+    drawHeart(left + i * 18, rowY, fill);
+  }
+
+  // Hunger (right side, counted from right)
+  const sticksToShow = Math.ceil(stats.maxHunger / 2);
+  for (let i = 0; i < sticksToShow; i++) {
+    const hungerAtStick = stats.hunger - i * 2;
+    const fill = Math.max(0, Math.min(1, hungerAtStick / 2));
+    drawDrumstick(right - (i + 1) * 18, rowY, fill);
+  }
+
+    // Oxygen (above hunger, only if not full)
+  if (stats.oxygen < stats.maxOxygen) {
+    const bubblesToShow = 10;
+    const perBubble = stats.maxOxygen / bubblesToShow;
+    for (let i = 0; i < bubblesToShow; i++) {
+      // Bubble i (from the right side) represents oxygen range [i * perBubble, (i+1) * perBubble)
+      const remaining = stats.oxygen - i * perBubble;
+      let fill = 0;
+      if (remaining >= perBubble) fill = 1;
+      else if (remaining > 0) fill = 0.5;   // partial → half-filled
+      drawBubble(right - (i + 1) * 18, rowY - 20, fill);
+    }
+  }
+
+  // Stamina bar (thin bar above the stats row)
+  const staminaW = 464;
+  const staminaX = cxm - staminaW / 2;
+  const staminaY = canvas.height - 66;
+  ctx.fillStyle = 'rgba(0,0,0,.6)';
+  ctx.fillRect(staminaX, staminaY, staminaW, 6);
+  const staminaPct = stats.stamina / stats.maxStamina;
+  ctx.fillStyle = stats.exhausted ? '#b8860b' : '#43a047';
+  ctx.fillRect(staminaX + 1, staminaY + 1, (staminaW - 2) * staminaPct, 4);
+
+
+  let lowHealthIntensity = 0;
+  if (stats.health < 6 && stats.health > 0) {
+    const base = (6 - stats.health) / 6 * hurtVignette.lowHealthMax;
+    const pulse = 0.1 * Math.sin(performance.now() * 0.005);
+    lowHealthIntensity = Math.max(0, base + pulse);
+  }
+  // Combine — whichever is stronger
+  const finalIntensity = Math.max(hurtVignette.intensity, lowHealthIntensity);
+  if (finalIntensity > 0) {
+    const grad = ctx.createRadialGradient(
+      hudCanvas.width / 2, hudCanvas.height / 2, Math.min(hudCanvas.width, hudCanvas.height) * 0.25,
+      hudCanvas.width / 2, hudCanvas.height / 2, Math.max(hudCanvas.width, hudCanvas.height) * 0.75
+    );
+    grad.addColorStop(0, 'rgba(255,0,0,0)');
+    grad.addColorStop(1, 'rgba(200,0,0,' + (finalIntensity * 0.7) + ')');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, hudCanvas.width, hudCanvas.height);
+  }
+
+    // Death overlay
+  if (stats.dead) {
+    const elapsed = 120 - stats.deathTimer;   // frames since death
+    // Phase 1 (0-60 frames): red vignette at 100%
+    // Phase 2 (60-120 frames): fade red out, fade black in
+    // Phase 3 (120+): full black, respawn triggers
+    let redAlpha = 1;
+    let blackAlpha = 0;
+    if (elapsed < 30) {
+      // Hold red 100%
+      redAlpha = 1;
+    } else if (elapsed < 90) {
+      // Fade red out while fading black in
+      const t = (elapsed - 30) / 60;
+      redAlpha = 1 - t;
+      blackAlpha = t;
+    } else {
+      redAlpha = 0;
+      blackAlpha = 1;
+    }
+    // Red vignette layer
+    if (redAlpha > 0) {
+      const grad = ctx.createRadialGradient(
+        hudCanvas.width / 2, hudCanvas.height / 2, Math.min(hudCanvas.width, hudCanvas.height) * 0.15,
+        hudCanvas.width / 2, hudCanvas.height / 2, Math.max(hudCanvas.width, hudCanvas.height) * 0.8
+      );
+      grad.addColorStop(0, 'rgba(255,0,0,' + (0.3 * redAlpha) + ')');
+      grad.addColorStop(1, 'rgba(200,0,0,' + (0.95 * redAlpha) + ')');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, hudCanvas.width, hudCanvas.height);
+    }
+    // Black layer
+    if (blackAlpha > 0) {
+      ctx.fillStyle = 'rgba(0,0,0,' + blackAlpha + ')';
+      ctx.fillRect(0, 0, hudCanvas.width, hudCanvas.height);
+    }
+    // Text
+    if (elapsed < 90) {
+      ctx.fillStyle = 'rgba(255,255,255,' + redAlpha + ')';
+      ctx.font = 'bold 48px system-ui,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('You Died', canvas.width / 2, canvas.height / 2);
+    }
+  }
+}
+// ============================================================
+// STATS UPDATE
+// ============================================================
+let statsFrame = 0;
+function updateStats(dt) {
+  statsFrame++;
+  const t = dt * 60;   // frames this tick
+
+  if (stats.dead) {
+    if (stats.deathTimer > 0) stats.deathTimer -= t;
+    else respawn();
+    return;
+  }
+
+  // Cooldowns
+  if (stats.hurtCooldown > 0) stats.hurtCooldown -= t;
+  if (stats.eatCooldown > 0) stats.eatCooldown -= t;
+
+  // Hunger drain — base exhaustion per frame
+  addExhaustion(0.002 * t);
+  // Extra drain from sprinting (handled where sprint is applied)
+  // Extra drain from mining (added at mining code)
+
+  // Starving
+  if (stats.hunger === 0) {
+    if (frame % 240 === 0) damage(1, { ignoreCooldown: true });
+  }
+
+  // Oxygen — underwater?
+  const headBlock = getBlock(
+    Math.floor(player.pos.x),
+    Math.floor(player.pos.y + player.height * 0.9),
+    Math.floor(player.pos.z)
+  );
+  const underwater = headBlock === 11;   // water block id
+  if (underwater) {
+    stats.oxygen = Math.max(0, stats.oxygen - t);
+    if (stats.oxygen === 0) {
+      if (frame % 60 === 0) damage(2, { ignoreCooldown: true });
+    }
+  } else {
+    stats.oxygen = Math.min(stats.maxOxygen, stats.oxygen + t * 4);
+  }
+
+  // Stamina regen
+  if (stats.staminaRegenDelay > 0) stats.staminaRegenDelay -= t;
+  else if (stats.stamina < stats.maxStamina) {
+    stats.stamina = Math.min(stats.maxStamina, stats.stamina + 0.3 * t);
+    if (stats.exhausted && stats.stamina > stats.maxStamina * 0.3) stats.exhausted = false;
+  }
+
+  // Fall damage tracking
+  updateFallTracking();
+}
+
+// ============================================================
+// SPRINT + STAMINA
+// ============================================================
+function updateSprint() {
+  const moving = keys['KeyW'] || keys['KeyA'] || keys['KeyS'] || keys['KeyD'];
+  const tryingToSprint = keys['ShiftLeft'] && moving && !stats.exhausted;
+  if (tryingToSprint && stats.stamina > 0) {
+    stats.stamina = Math.max(0, stats.stamina - 0.5);
+    stats.staminaRegenDelay = 40;
+    addExhaustion(0.02);   // sprinting drains hunger
+    if (stats.stamina === 0) stats.exhausted = true;
+    return true;
+  }
+  return false;
+}
+
+// END OF STATS BLOCK
 
 // ============================================================
 // INVENTORY
@@ -1856,7 +2650,7 @@ function makeMob(type, x, y, z) {
     vel: new THREE.Vector3(), yaw: 0,
     hp: def.hp, maxHp: def.hp,
     wanderTimer: 0, wanderDir: new THREE.Vector3(),
-    fleeTimer: 0, onGround: false, hitFlash: 0,
+    fleeTimer: 0, fleeSpeed: 0, onGround: false, hitFlash: 0,
     hurtCooldown: 0, walkPhase: Math.random() * 10,
     arrowCooldown: def.rangedCooldown ? 60 + Math.random() * 60 : 0,
     fuseTimer: 0, hopTimer: 0, vx: 0, vz: 0,
@@ -1936,7 +2730,7 @@ function shootArrow(fx, fy, fz, tx, ty, tz, speed) {
 function updateArrows(dt) {
   for (let i = arrows.length - 1; i >= 0; i--) {
     const a = arrows[i];
-    a.vy -= 8 * dt;
+    a.vy -= 3 * dt;
     a.mesh.position.x += a.vx * dt * 20;
     a.mesh.position.y += a.vy * dt * 20;
     a.mesh.position.z += a.vz * dt * 20;
@@ -1946,6 +2740,7 @@ function updateArrows(dt) {
     const dz = a.mesh.position.z - player.pos.z;
     let remove = false;
     if (Math.hypot(dx, dy, dz) < 0.8) {
+      damage(3);   // arrow hits player for 3 damage
       remove = true;
     } else {
       const b = getBlock(Math.floor(a.mesh.position.x), Math.floor(a.mesh.position.y), Math.floor(a.mesh.position.z));
@@ -1989,10 +2784,10 @@ function hasLineOfSight(from, to) {
   }
   return true;
 }
-
 function updateMob(m, dt) {
   const def = m.def;
-  const speed = def.speed * 60;
+  const speedBase = def.speed * 60;
+  const speed = m.fleeTimer > 0 ? speedBase * (1 + (m.fleeSpeed || 0)) : speedBase;
   m.vel.y -= 25 * dt;
   if (m.vel.y < -30) m.vel.y = -30;
 
@@ -2003,8 +2798,17 @@ function updateMob(m, dt) {
 
   if (m.fleeTimer > 0) {
     m.fleeTimer -= dt;
-    moveX = -dx / distToPlayer; moveZ = -dz / distToPlayer;
-  } else if (def.erratic && def.flies) {
+    m.fleeSpeed = Math.min(1.0, (m.fleeSpeed || 0) + dt * 3);
+    const jitterX = (Math.random() - 0.5) * 0.3;
+    const jitterZ = (Math.random() - 0.5) * 0.3;
+    moveX = -dx / distToPlayer + jitterX;
+    moveZ = -dz / distToPlayer + jitterZ;
+    const mag = Math.hypot(moveX, moveZ) || 1;
+    moveX /= mag; moveZ /= mag;
+  } else {
+    m.fleeSpeed = 0;
+
+  } if (def.erratic && def.flies) {
     m.wanderTimer -= dt;
     if (m.wanderTimer <= 0) {
       m.wanderDir.set((Math.random() - 0.5) * 2, (Math.random() - 0.5) * 1.5, (Math.random() - 0.5) * 2);
@@ -2019,7 +2823,7 @@ function updateMob(m, dt) {
       else if (distToPlayer > 10) { moveX = dx / distToPlayer; moveZ = dz / distToPlayer; }
       m.arrowCooldown -= dt * 60;
       if (m.arrowCooldown <= 0) {
-        shootArrow(head.x, head.y, head.z, player.pos.x, player.pos.y + player.height * 0.6, player.pos.z, def.arrowSpeed);
+        shootArrow(head.x, head.y, head.z, player.pos.x, player.pos.y + player.height * 0.7 + 0.3, player.pos.z, def.arrowSpeed);
         m.arrowCooldown = def.rangedCooldown;
       }
     }
@@ -2100,18 +2904,22 @@ function updateMob(m, dt) {
     else { if (m.vel.y < 0) m.onGround = true; m.vel.y = 0; }
   }
 
+    // Mob contact damage with per-mob cooldown
   if (def.hostile && !def.ranged && !def.explodes && !def.hops) {
-    if (m.hurtCooldown > 0) m.hurtCooldown -= dt;
     if (Math.hypot(player.pos.x - m.pos.x, player.pos.z - m.pos.z) < 1.2 &&
         Math.abs(player.pos.y - m.pos.y) < 2 && m.hurtCooldown <= 0) {
-      m.hurtCooldown = 1.0;
+      damage(m.def.damage || 3);
+      m.hurtCooldown = (m.def.attackCooldown || 1.0) * 60;
     }
   }
+  // Slime contact damage
   if (def.hops && Math.hypot(player.pos.x - m.pos.x, player.pos.z - m.pos.z) < 1.0 &&
       Math.abs(player.pos.y - m.pos.y) < 1.5 && m.hurtCooldown <= 0) {
-    m.hurtCooldown = 1.0;
+    damage(2);
+    m.hurtCooldown = (m.def.attackCooldown || 0.8) * 60;
   }
-  if (m.hurtCooldown > 0) m.hurtCooldown -= dt;
+  // Single cooldown tick for all mobs
+  if (m.hurtCooldown > 0) m.hurtCooldown -= dt * 60;
 
   const moving = (Math.abs(mx) + Math.abs(mz)) > 0.001;
   if (moving) m.walkPhase += dt * 8; else m.walkPhase *= 0.9;
@@ -2128,19 +2936,21 @@ function updateMob(m, dt) {
     const flap = Math.sin(performance.now() * 0.02) * 0.4;
     for (const w of m.model.userData.wings) w.mesh.rotation.x = flap * w.side;
   }
-}
+} 
 
 // Player attacks mobs
 addEventListener('mousedown', function (e) {
   if (document.pointerLockElement !== renderer.domElement) return;
   if (e.button !== 0) return;
+  if (stats.attackCooldown > 0) return;
   const origin = new THREE.Vector3(player.pos.x, player.pos.y + player.height * 0.9, player.pos.z);
   const dir = new THREE.Vector3(
     -Math.sin(player.yaw) * Math.cos(player.pitch),
     Math.sin(player.pitch),
     -Math.cos(player.yaw) * Math.cos(player.pitch)
   );
-  for (let t = 0.5; t < 4; t += 0.1) {
+  // Denser raycast (0.05 instead of 0.1)
+  for (let t = 0.5; t < 4.5; t += 0.05) {
     const px = origin.x + dir.x * t;
     const py = origin.y + dir.y * t;
     const pz = origin.z + dir.z * t;
@@ -2148,16 +2958,35 @@ addEventListener('mousedown', function (e) {
       const mx = px - m.pos.x;
       const my = py - (m.pos.y + m.def.size.h / 2);
       const mz = pz - m.pos.z;
-      if (Math.abs(mx) < m.def.size.w / 2 + 0.2 &&
-          Math.abs(my) < m.def.size.h / 2 + 0.2 &&
-          Math.abs(mz) < m.def.size.d / 2 + 0.2) {
-        m.hp -= 4;
-        if (m.def.passive) m.fleeTimer = 3;
+      // Bigger padding (0.6 instead of 0.2)
+      if (Math.abs(mx) < m.def.size.w / 2 + 0.6 &&
+          Math.abs(my) < m.def.size.h / 2 + 0.6 &&
+          Math.abs(mz) < m.def.size.d / 2 + 0.6) {
+        const isCrit = (frame - stats.lastLandFrame) <= stats.critWindowFrames;
+        const baseDamage = 4;
+        const damage = isCrit ? baseDamage * 2 : baseDamage;
+        m.hp -= damage;
+        if (m.def.passive) m.fleeTimer = 5;   // 5 seconds of fleeing
+        // Blood particles
+        const bloodColor = m.def.bloodColor || 0xff0000;
+        spawnBlood(m.pos.x, m.pos.y + m.def.size.h * 0.6, m.pos.z, bloodColor);
+        // Damage number
+        spawnDamageNumber(
+          m.pos.x,
+          m.pos.y + m.def.size.h + 0.5,
+          m.pos.z,
+          damage,
+          isCrit
+        );
+        // Hit marker
+        showHitMarker(isCrit);
+        stats.attackCooldown = 18;
         if (m.hp <= 0) killMob(m);
         return;
       }
     }
   }
+  stats.attackCooldown = 18;
 }, true);
 
 // ============================================================
@@ -2250,6 +3079,11 @@ addEventListener('mousedown', function (e) {
 addEventListener('mousedown', function (e) {
   if (document.pointerLockElement !== renderer.domElement) return;
   if (e.button !== 2) return;
+    const foodSlot = inventory[selectedSlot];
+  if (foodSlot && isFood(foodSlot.item)) {
+    eatFood(foodSlot.item);
+    return;
+  }
   const slot = inventory[selectedSlot];
   if (slot && (slot.item === 'bed' || slot.item === 'torch')) return;
   const result = pickBlock();
@@ -2399,6 +3233,8 @@ scene.add(highlightBox);
   });
 })();
 
+let frame = 0;
+
 // ============================================================
 // MAIN LOOP
 // ============================================================
@@ -2407,6 +3243,7 @@ function loop() {
   const now = performance.now();
   const dt = Math.min(0.05, (now - lastT) / 1000);
   lastT = now;
+  frame++;
 
   // Day/night
   dayT = (dayT + dt / DAY_LENGTH) % 1;
@@ -2424,6 +3261,12 @@ function loop() {
 
   if (!invOpen) {
     updatePhysics(dt);
+    updateStats(dt);
+    updateDamageNumbers(dt);
+    updateBloodParticles(dt);
+    updateHitMarker(dt);
+    
+    if (stats.attackCooldown > 0) stats.attackCooldown -= 1;
 
     // Spawn mobs
     spawnCounter++;
@@ -2457,6 +3300,10 @@ function loop() {
   const pi = document.getElementById('posinfo');
   if (pi) pi.textContent = Math.floor(player.pos.x) + ',' + Math.floor(player.pos.y) + ',' + Math.floor(player.pos.z);
 
+  drawDamageNumbers();
+  drawBloodParticles();
+  drawHitMarker();
+  drawStatsHUD();
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
 }
