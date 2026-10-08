@@ -873,12 +873,163 @@ function toast(msg) {
 }
 
 // ============================================================
+// ITEM ICONS — SVG strings
+// ============================================================
+const ICONS = {
+  // Materials
+  stick: `<line x1="6" y1="28" x2="26" y2="6" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+          <line x1="6" y1="28" x2="26" y2="6" stroke="#8a5a3a" stroke-width="4" stroke-linecap="round"/>
+          <line x1="7" y1="27" x2="24" y2="8" stroke="#a87040" stroke-width="1" stroke-linecap="round"/>`,
+  coal: `<circle cx="16" cy="17" r="11" fill="#000" stroke="#444" stroke-width="1.5"/>
+         <circle cx="12" cy="14" r="3" fill="#333"/>
+         <circle cx="20" cy="19" r="2" fill="#333"/>`,
+  iron: `<path d="M8 12 L26 12 L29 24 L5 24 Z" fill="#d9a679" stroke="#8a5a3a" stroke-width="1.5"/>
+         <rect x="9" y="14" width="14" height="2" fill="#f0c9a0" opacity="0.8"/>`,
+  gold: `<path d="M8 12 L26 12 L29 24 L5 24 Z" fill="#ffd700" stroke="#b8860b" stroke-width="1.5"/>
+         <rect x="9" y="14" width="14" height="2" fill="#fff8b0" opacity="0.9"/>`,
+  diamond: `<path d="M16 5 L28 14 L16 29 L4 14 Z" fill="#40e0ff" stroke="#1a7a99" stroke-width="1.5"/>
+            <path d="M16 5 L4 14 L16 14 Z" fill="#a0f0ff" opacity="0.7"/>
+            <path d="M16 5 L28 14 L16 14 Z" fill="#60d0ef" opacity="0.6"/>
+            <path d="M4 14 L16 14 L16 29 Z" fill="#30b0d0" opacity="0.5"/>`,
+  wool: `<circle cx="16" cy="16" r="12" fill="#f0f0f0" stroke="#c0c0c0" stroke-width="1.5"/>
+         <circle cx="12" cy="13" r="2" fill="#fff"/>
+         <circle cx="20" cy="12" r="2.2" fill="#fff"/>
+         <circle cx="18" cy="20" r="2" fill="#fff"/>
+         <circle cx="10" cy="19" r="1.8" fill="#fff"/>`,
+  leather: `<path d="M6 12 Q4 8 8 6 Q14 3 20 5 Q28 8 27 16 Q26 24 20 26 Q12 28 8 24 Q4 20 6 12 Z"
+              fill="#8a5a3a" stroke="#5a3a20" stroke-width="1.5"/>
+            <path d="M10 10 Q14 8 20 9" stroke="#5a3a20" stroke-width="1" fill="none" opacity="0.6"/>`,
+  bone: `<rect x="6" y="14" width="20" height="4" fill="#f0f0e0" stroke="#a0a090" stroke-width="1"/>
+         <circle cx="6" cy="14" r="3" fill="#f0f0e0" stroke="#a0a090" stroke-width="1"/>
+         <circle cx="6" cy="18" r="3" fill="#f0f0e0" stroke="#a0a090" stroke-width="1"/>
+         <circle cx="26" cy="14" r="3" fill="#f0f0e0" stroke="#a0a090" stroke-width="1"/>
+         <circle cx="26" cy="18" r="3" fill="#f0f0e0" stroke="#a0a090" stroke-width="1"/>`,
+  feather: `<path d="M8 26 Q10 22 14 16 Q20 8 26 6 Q24 14 20 20 Q16 26 8 26 Z"
+              fill="#f4f4f4" stroke="#a0a0a0" stroke-width="1"/>
+            <line x1="8" y1="26" x2="24" y2="8" stroke="#8a5a3a" stroke-width="1"/>
+            <line x1="12" y1="20" x2="18" y2="14" stroke="#a0a0a0" stroke-width="0.8"/>
+            <line x1="14" y1="22" x2="20" y2="16" stroke="#a0a0a0" stroke-width="0.8"/>`,
+  arrow: `<line x1="6" y1="26" x2="24" y2="8" stroke="#8a5a3a" stroke-width="2"/>
+          <path d="M24 8 L28 4 L26 10 L22 6 Z" fill="#d0d0d0" stroke="#666" stroke-width="0.8"/>
+          <path d="M6 26 L4 28 L8 24 Z" fill="#f4f4f4" stroke="#a0a0a0" stroke-width="0.6"/>
+          <path d="M8 22 L4 26" stroke="#f4f4f4" stroke-width="1.5"/>
+          <path d="M10 24 L6 28" stroke="#f4f4f4" stroke-width="1.5"/>`,
+  gunpowder: `<circle cx="10" cy="12" r="2" fill="#555"/>
+              <circle cx="16" cy="10" r="2.2" fill="#333"/>
+              <circle cx="22" cy="13" r="1.8" fill="#555"/>
+              <circle cx="12" cy="18" r="2" fill="#333"/>
+              <circle cx="18" cy="17" r="2.4" fill="#555"/>
+              <circle cx="24" cy="20" r="1.6" fill="#333"/>
+              <circle cx="15" cy="23" r="1.8" fill="#555"/>`,
+  slimeball: `<ellipse cx="16" cy="17" rx="12" ry="11" fill="#7ec87e" opacity="0.85" stroke="#4a9040" stroke-width="1.5"/>
+              <ellipse cx="12" cy="13" rx="3" ry="2" fill="#c0f0c0" opacity="0.7"/>`,
+  bat_wing: `<path d="M16 8 L4 14 L8 22 L12 20 L16 26 L20 20 L24 22 L28 14 Z"
+              fill="#5a4a6a" stroke="#2a1a3a" stroke-width="1.5"/>
+            <line x1="16" y1="8" x2="16" y2="26" stroke="#2a1a3a" stroke-width="1"/>
+            <line x1="16" y1="14" x2="6" y2="14" stroke="#2a1a3a" stroke-width="0.8"/>
+            <line x1="16" y1="14" x2="26" y2="14" stroke="#2a1a3a" stroke-width="0.8"/>`,
+  raw_beef: `<ellipse cx="16" cy="17" rx="11" ry="9" fill="#c25a5a" stroke="#7a2a2a" stroke-width="1.5"/>
+             <ellipse cx="12" cy="14" rx="4" ry="2.5" fill="#e08a8a" opacity="0.7"/>
+             <path d="M22 12 Q24 14 22 18" stroke="#7a2a2a" stroke-width="1" fill="none"/>`,
+  raw_porkchop: `<ellipse cx="17" cy="17" rx="10" ry="8" fill="#ffb8b8" stroke="#a05050" stroke-width="1.5"/>
+                 <path d="M7 14 L4 12 L2 15 L5 17 Z" fill="#f0f0e0" stroke="#a0a090" stroke-width="1"/>
+                 <ellipse cx="14" cy="15" rx="4" ry="2" fill="#ffd8d8" opacity="0.7"/>`,
+  raw_mutton: `<ellipse cx="16" cy="17" rx="11" ry="8" fill="#e07a7a" stroke="#8a3030" stroke-width="1.5"/>
+               <ellipse cx="13" cy="14" rx="4" ry="2.5" fill="#f0a0a0" opacity="0.7"/>
+               <ellipse cx="20" cy="19" rx="3" ry="2" fill="#8a3030" opacity="0.4"/>`,
+  raw_chicken: `<ellipse cx="16" cy="17" rx="10" ry="8" fill="#ffe8b8" stroke="#c0a070" stroke-width="1.5"/>
+                <ellipse cx="13" cy="14" rx="4" ry="2.5" fill="#fff8d8" opacity="0.8"/>
+                <ellipse cx="19" cy="19" rx="2" ry="1.5" fill="#d0a870" opacity="0.6"/>`,
+  rotten_flesh: `<path d="M6 12 Q4 8 10 6 Q20 4 26 8 Q28 14 26 20 Q24 26 16 26 Q8 26 6 20 Z"
+                   fill="#8a6f5a" stroke="#4a3520" stroke-width="1.5"/>
+                 <circle cx="11" cy="12" r="2" fill="#5a4030"/>
+                 <circle cx="20" cy="14" r="2.5" fill="#5a4030"/>
+                 <circle cx="14" cy="20" r="1.8" fill="#5a4030"/>
+                 <circle cx="22" cy="20" r="1.5" fill="#7a5a40" opacity="0.6"/>`,
+  // Pickaxes
+  wood_pickaxe: `<line x1="6" y1="28" x2="20" y2="10" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+                 <line x1="6" y1="28" x2="20" y2="10" stroke="#b98345" stroke-width="3" stroke-linecap="round"/>
+                 <path d="M8 14 Q18 2 28 12" stroke="#000" stroke-width="7" stroke-linecap="round" fill="none"/>
+                 <path d="M8 14 Q18 2 28 12" stroke="#8a5a3a" stroke-width="4" stroke-linecap="round" fill="none"/>`,
+  stone_pickaxe: `<line x1="6" y1="28" x2="20" y2="10" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="6" y1="28" x2="20" y2="10" stroke="#b98345" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M8 14 Q18 2 28 12" stroke="#000" stroke-width="7" stroke-linecap="round" fill="none"/>
+                  <path d="M8 14 Q18 2 28 12" stroke="#808080" stroke-width="4" stroke-linecap="round" fill="none"/>`,
+  iron_pickaxe: `<line x1="6" y1="28" x2="20" y2="10" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+                 <line x1="6" y1="28" x2="20" y2="10" stroke="#b98345" stroke-width="3" stroke-linecap="round"/>
+                 <path d="M8 14 Q18 2 28 12" stroke="#000" stroke-width="7" stroke-linecap="round" fill="none"/>
+                 <path d="M8 14 Q18 2 28 12" stroke="#d9a679" stroke-width="4" stroke-linecap="round" fill="none"/>
+                 <path d="M12 10 Q18 4 22 8" stroke="#f0d0a8" stroke-width="1" fill="none" opacity="0.8"/>`,
+  // Axes
+  wood_axe: `<line x1="8" y1="28" x2="20" y2="10" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+             <line x1="8" y1="28" x2="20" y2="10" stroke="#b98345" stroke-width="3" stroke-linecap="round"/>
+             <path d="M18 4 L28 10 L26 20 L16 14 Z" fill="#000" stroke="#000" stroke-width="3"/>
+             <path d="M18 4 L28 10 L26 20 L16 14 Z" fill="#8a5a3a" stroke="#5a3a20" stroke-width="1.5"/>`,
+  stone_axe: `<line x1="8" y1="28" x2="20" y2="10" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+              <line x1="8" y1="28" x2="20" y2="10" stroke="#b98345" stroke-width="3" stroke-linecap="round"/>
+              <path d="M18 4 L28 10 L26 20 L16 14 Z" fill="#000" stroke="#000" stroke-width="3"/>
+              <path d="M18 4 L28 10 L26 20 L16 14 Z" fill="#808080" stroke="#505050" stroke-width="1.5"/>`,
+  iron_axe: `<line x1="8" y1="28" x2="20" y2="10" stroke="#000" stroke-width="5" stroke-linecap="round"/>
+             <line x1="8" y1="28" x2="20" y2="10" stroke="#b98345" stroke-width="3" stroke-linecap="round"/>
+             <path d="M18 4 L28 10 L26 20 L16 14 Z" fill="#000" stroke="#000" stroke-width="3"/>
+             <path d="M18 4 L28 10 L26 20 L16 14 Z" fill="#d9a679" stroke="#a07050" stroke-width="1.5"/>
+             <path d="M20 6 L26 10" stroke="#f0d0a8" stroke-width="1"/>`,
+  // Swords
+  wood_sword: `<line x1="8" y1="24" x2="26" y2="6" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+               <line x1="8" y1="24" x2="26" y2="6" stroke="#8a5a3a" stroke-width="3.5" stroke-linecap="round"/>
+               <line x1="4" y1="20" x2="12" y2="28" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+               <line x1="4" y1="20" x2="12" y2="28" stroke="#8d6e63" stroke-width="2.5" stroke-linecap="round"/>
+               <line x1="6" y1="26" x2="2" y2="30" stroke="#6d4c2a" stroke-width="3" stroke-linecap="round"/>`,
+  stone_sword: `<line x1="8" y1="24" x2="26" y2="6" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+                <line x1="8" y1="24" x2="26" y2="6" stroke="#808080" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="4" y1="20" x2="12" y2="28" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+                <line x1="4" y1="20" x2="12" y2="28" stroke="#8d6e63" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="6" y1="26" x2="2" y2="30" stroke="#6d4c2a" stroke-width="3" stroke-linecap="round"/>`,
+  iron_sword: `<line x1="8" y1="24" x2="26" y2="6" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+               <line x1="8" y1="24" x2="26" y2="6" stroke="#d9a679" stroke-width="3.5" stroke-linecap="round"/>
+               <line x1="10" y1="22" x2="24" y2="8" stroke="#f0d0a8" stroke-width="1" opacity="0.9"/>
+               <line x1="4" y1="20" x2="12" y2="28" stroke="#000" stroke-width="4" stroke-linecap="round"/>
+               <line x1="4" y1="20" x2="12" y2="28" stroke="#8d6e63" stroke-width="2.5" stroke-linecap="round"/>
+               <line x1="6" y1="26" x2="2" y2="30" stroke="#6d4c2a" stroke-width="3" stroke-linecap="round"/>`,
+};
+
+// ============================================================
+// ICON RENDERING
+// ============================================================
+function iconHTML(itemName) {
+  if (!itemName) return '';
+  // Block items: use the color swatch
+  for (const id in BLOCKS) {
+    if (BLOCKS[id].name === itemName) {
+      const c = BLOCKS[id].color;
+      const hex = '#' + (c >>> 0).toString(16).padStart(6, '0');
+      return '<div style="width:40px;height:40px;background:' + hex + ';border:1px solid rgba(0,0,0,.5);"></div>';
+    }
+  }
+  // SVG item
+  if (ICONS[itemName]) {
+    return '<svg viewBox="0 0 32 32" width="40" height="40">' + ICONS[itemName] + '</svg>';
+  }
+  // Fallback: colored square
+  const c = ITEMS[itemName] ? ITEMS[itemName].color : 0x999999;
+  const hex = '#' + (c >>> 0).toString(16).padStart(6, '0');
+  return '<div style="width:40px;height:40px;background:' + hex + ';border-radius:4px;"></div>';
+}
+
+// ============================================================
 // INVENTORY
 // ============================================================
 const inventory = new Array(INV_SIZE).fill(null);
 const craftGrid = new Array(9).fill(null);
 let heldItem = null;
 let selectedSlot = 0;
+addEventListener('keydown', function (e) {
+  if (e.code >= 'Digit1' && e.code <= 'Digit9') {
+    selectedSlot = +e.code.slice(5) - 1;
+    refreshHotbarUI();
+    showItemName();
+  }
+});
 let recipeBookOpen = false;
 
 const cursorItemEl = document.createElement('div');
@@ -952,17 +1103,18 @@ invPanel.style.cssText =
 document.body.appendChild(invPanel);
 
 function slotHTML(index, item, count, isHotbar, extra) {
-  const bg = item ? colorToHex(itemColor(item)) : 'rgba(0,0,0,.4)';
+  const bg = 'rgba(0,0,0,.4)';
   const border = isHotbar ? '3px solid #555c6e' : '2px solid #444';
-  const numberLabel = isHotbar ? '<span style="position:absolute;top:1px;left:3px;font-size:10px;color:#bbb;">' + (index + 1) + '</span>' : '';
-  const countLabel = count > 1 ? '<span style="position:absolute;bottom:1px;right:3px;font-size:11px;color:#fff;text-shadow:0 1px 2px #000;">' + count + '</span>' : '';
+  const numberLabel = isHotbar ? '<span style="position:absolute;top:1px;left:3px;font-size:10px;color:#bbb;z-index:2;">' + (index + 1) + '</span>' : '';
+  const countLabel = count > 1 ? '<span style="position:absolute;bottom:1px;right:3px;font-size:11px;color:#fff;text-shadow:0 1px 2px #000;z-index:2;">' + count + '</span>' : '';
   const dataAttr = extra && extra.dataAttr ? extra.dataAttr : ('data-idx="' + index + '"');
   const cls = extra && extra.cls ? ' ' + extra.cls : 'inv-slot';
+  const iconContent = item ? iconHTML(item) : '';
   return '<div class="' + cls.trim() + '" ' + dataAttr + ' style="' +
     'width:52px;height:52px;background:' + bg + ';border:' + border + ';' +
     'border-radius:4px;position:relative;cursor:pointer;display:flex;' +
     'align-items:center;justify-content:center;box-sizing:border-box;">' +
-    numberLabel + countLabel + '</div>';
+    iconContent + numberLabel + countLabel + '</div>';
 }
 
 function buildRecipeBookHTML() {
@@ -1329,33 +1481,66 @@ addEventListener('keydown', function (e) {
   if (e.key === 'Escape' && invOpen) closeInventory();
 });
 
+function iconHTML(itemName) {
+  if (!itemName) return '';
+  for (const id in BLOCKS) {
+    if (BLOCKS[id].name === itemName) {
+      const c = BLOCKS[id].color;
+      const hex = '#' + (c >>> 0).toString(16).padStart(6, '0');
+      return '<div style="width:40px;height:40px;background:' + hex + ';border:1px solid rgba(0,0,0,.5);"></div>';
+    }
+  }
+  if (ICONS[itemName]) {
+    return '<svg viewBox="0 0 32 32" width="40" height="40">' + ICONS[itemName] + '</svg>';
+  }
+  const c = ITEMS[itemName] ? ITEMS[itemName].color : 0x999999;
+  const hex = '#' + (c >>> 0).toString(16).padStart(6, '0');
+  return '<div style="width:40px;height:40px;background:' + hex + ';border-radius:4px;"></div>';
+}
+
 // ============================================================
 // HOTBAR UI
 // ============================================================
 const hudEl = document.getElementById('hud');
+
+const itemNameEl = document.createElement('div');
+itemNameEl.id = 'item-name';
+itemNameEl.style.cssText =
+  'position:fixed;bottom:72px;left:50%;transform:translateX(-50%);' +
+  'color:#fff;font:14px system-ui,sans-serif;text-shadow:0 1px 3px #000,0 0 6px #000;' +
+  'padding:4px 10px;background:rgba(0,0,0,.55);border-radius:4px;' +
+  'pointer-events:none;z-index:9;opacity:0;transition:opacity .3s;';
+document.body.appendChild(itemNameEl);
+
+let nameShowTimer = null;
+function showItemName() {
+  const slot = inventory[selectedSlot];
+  if (!slot) { itemNameEl.style.opacity = '0'; return; }
+  itemNameEl.textContent = itemLabel(slot.item);
+  itemNameEl.style.opacity = '1';
+  if (nameShowTimer) clearTimeout(nameShowTimer);
+  nameShowTimer = setTimeout(function () { itemNameEl.style.opacity = '0'; }, 2000);
+}
+
 function refreshHotbarUI() {
   if (!hudEl) return;
   let html = '';
   for (let i = 0; i < HOTBAR_SIZE; i++) {
     const slot = inventory[i];
-    const bg = slot ? colorToHex(itemColor(slot.item)) : 'rgba(0,0,0,.5)';
     const sel = (i === selectedSlot);
     const border = sel ? '3px solid #ffd54a' : '3px solid #555';
-    const countLabel = slot && slot.count > 1 ? '<span style="position:absolute;bottom:1px;right:3px;font-size:11px;color:#fff;text-shadow:0 1px 2px #000;">' + slot.count + '</span>' : '';
+    const countLabel = slot && slot.count > 1 ? '<span style="position:absolute;bottom:1px;right:3px;font-size:11px;color:#fff;text-shadow:0 1px 2px #000;z-index:2;">' + slot.count + '</span>' : '';
+    const iconContent = slot ? iconHTML(slot.item) : '';
     html += '<div class="slot ' + (sel ? 'sel' : '') + '" style="' +
-      'width:48px;height:48px;border:' + border + ';background:' + bg + ';' +
+      'width:48px;height:48px;border:' + border + ';background:rgba(0,0,0,.5);' +
       'position:relative;display:flex;align-items:center;justify-content:center;box-sizing:border-box;">' +
-      '<span style="position:absolute;top:1px;left:3px;font-size:10px;color:#bbb;">' + (i + 1) + '</span>' +
+      iconContent +
+      '<span style="position:absolute;top:1px;left:3px;font-size:10px;color:#bbb;z-index:2;">' + (i + 1) + '</span>' +
       countLabel + '</div>';
   }
   hudEl.innerHTML = html;
 }
-addEventListener('keydown', function (e) {
-  if (e.code >= 'Digit1' && e.code <= 'Digit9') {
-    selectedSlot = +e.code.slice(5) - 1;
-    refreshHotbarUI();
-  }
-});
+
 
 // ============================================================
 // RAYCAST
