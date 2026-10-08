@@ -478,6 +478,8 @@ addEventListener('mousemove', e => {
 
   addEventListener('mousedown', e => {
     if (document.pointerLockElement !== renderer.domElement) return;
+    // Batch4 handles placement when it's active
+    if (e.button === 2 && window._batch4HandlesPlacing) return;
     const hit = pickBlock();
     if (!hit) return;
     if (e.button === 0) {
@@ -558,5 +560,6 @@ addEventListener('mousemove', e => {
 <script src="batch4.js"></script>
 <script src="batch5.js"></script>
 <script src="batch6a.js"></script>
+<script src="batch6b.js"></script>
 </body>
 </html>

@@ -647,25 +647,82 @@
   }, true);
 
   // ============================================================
-  // 11. PLACING BLOCKS
+   // ============================================================
+  // 11. PLACING BLOCKS (batch4 owns placement)
   // ============================================================
+  // Set the flag so the base game's placement skips.
+  window._batch4HandlesPlacing = true;
+
+  function pickBlockForBatch4() {
+    const origin = new THREE.Vector3(player.pos.x, player.pos.y + player.height * 0.9, player.pos.z);
+    const dir = new THREE.Vector3(
+      -Math.sin(player.yaw) * Math.cos(player.pitch),
+      Math.sin(player.pitch),
+      -Math.cos(player.yaw) * Math.cos(player.pitch)
+    );
+    const step = 0.05;
+    for (let t = 0; t < 6; t += step) {
+      const x = Math.floor(origin.x + dir.x * t);
+      const y = Math.floor(origin.y + dir.y * t);
+      const z = Math.floor(origin.z + dir.z * t);
+      const b = getBlock(x, y, z);
+      if (b !== 0) {
+        return {
+          x, y, z,
+          nx: origin.x + dir.x * (t - step),
+          ny: origin.y + dir.y * (t - step),
+          nz: origin.z + dir.z * (t - step),
+        };
+      }
+    }
+    return null;
+  }
+
   addEventListener('mousedown', function (e) {
     if (document.pointerLockElement !== renderer.domElement) return;
     if (e.button !== 2) return;
+    // Bed and torch placement is handled by batch6b — skip here
+    const heldItem = inventory[selectedSlot];
+    if (heldItem && (heldItem.item === 'bed' || heldItem.item === 'torch')) return;
+
     const slot = inventory[selectedSlot];
     if (!slot) return;
+    // Find the block ID for this item
     let blockId = null;
-    for (const id in BLOCKS) if (BLOCKS[id].name === slot.item) { blockId = +id; break; }
+    for (const id in BLOCKS) {
+      if (BLOCKS[id].name === slot.item) { blockId = +id; break; }
+    }
     if (blockId === null) return;
-    setTimeout(function () {
-      const cur = inventory[selectedSlot];
-      if (!cur || cur.item !== slot.item) return;
-      if (cur.count > 0) {
-        cur.count -= 1;
-        if (cur.count <= 0) inventory[selectedSlot] = null;
-        refreshHotbarUI();
+
+    // Raycast to find where to place
+    const hit = pickBlockForBatch4();
+    if (!hit) return;
+    const px = Math.floor(hit.nx);
+    const py = Math.floor(hit.ny);
+    const pz = Math.floor(hit.nz);
+
+    // Must be empty
+    if (getBlock(px, py, pz) !== 0) return;
+
+    // Don't place inside player
+    const r = player.radius;
+    const minX = Math.floor(player.pos.x - r), maxX = Math.floor(player.pos.x + r);
+    const minY = Math.floor(player.pos.y), maxY = Math.floor(player.pos.y + player.height);
+    const minZ = Math.floor(player.pos.z - r), maxZ = Math.floor(player.pos.z + r);
+    if (px >= minX && px <= maxX && py >= minY && py <= maxY && pz >= minZ && pz <= maxZ) return;
+
+    // Place the block
+    if (typeof setBlock === 'function') {
+      setBlock(px, py, pz, blockId);
+      if (typeof rebuildChunksAround === 'function') {
+        rebuildChunksAround(px, py, pz);
       }
-    }, 30);
+    }
+
+    // Decrement inventory
+    slot.count -= 1;
+    if (slot.count <= 0) inventory[selectedSlot] = null;
+    refreshHotbarUI();
   });
 
   // ============================================================
